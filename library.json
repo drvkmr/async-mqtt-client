@@ -19,7 +19,7 @@
     {
       "owner": "ottowinter",
       "name": "ESPAsyncTCP-esphome",
-      "version": "^1.2.2",
+      "version": "https://github.com/HeMan/ESPAsyncTCP.git#ipv6",
       "platforms": "espressif8266"
     },
     {
