@@ -1,5 +1,5 @@
 {
-  "name": "AsyncMqttClient-esphome",
+  "name": "AsyncMqttClient-heman",
   "keywords": "iot, home, automation, async, mqtt, client, esp8266",
   "description": "An Arduino for ESP8266 / ESP32 asynchronous MQTT client implementation",
   "authors":
@@ -10,11 +10,11 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/OttoWinter/async-mqtt-client.git"
+    "url": "https://github.com/HeMan/async-mqtt-client.git"
   },
-  "version": "0.8.6",
+  "version": "1.8.6",
   "frameworks": "arduino",
-  "platforms": ["espressif8266", "espressif32"],
+  "platforms": ["espressif8266", "espressif32", "raspberrypi"],
   "dependencies": [
     {
       "owner": "esphome",
@@ -27,6 +27,12 @@
       "name": "AsyncTCP-esphome",
       "version": "^1.1.1",
       "platforms": "espressif32"
+    },
+    {
+      "owner": "khoih-prog",
+      "name": "AsyncTCP_RP2040W",
+      "version": "^1.2.0",
+      "platforms": "raspberrypi"
     }
   ]
 }

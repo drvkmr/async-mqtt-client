@@ -11,7 +11,7 @@
 #elif defined(ESP8266)
 #include <ESPAsyncTCP.h>
 #else
-#error Platform not supported
+#include <AsyncTCP_RP2040W.h>
 #endif
 
 #if ASYNC_TCP_SSL_ENABLED
@@ -42,6 +42,9 @@
 #define SEMAPHORE_TAKE(X) if (xSemaphoreTake(_xSemaphore, 1000 / portTICK_PERIOD_MS) != pdTRUE) { return X; }  // Waits max 1000ms
 #define SEMAPHORE_GIVE() xSemaphoreGive(_xSemaphore);
 #elif defined(ESP8266)
+#define SEMAPHORE_TAKE(X) void()
+#define SEMAPHORE_GIVE() void()
+#else
 #define SEMAPHORE_TAKE(X) void()
 #define SEMAPHORE_GIVE() void()
 #endif
