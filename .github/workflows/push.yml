@@ -1,4 +1,4 @@
-name: ESP Async TCP CI
+name: Async MQTT client CI
 
 on:
   push:
