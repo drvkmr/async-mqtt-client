@@ -393,7 +393,7 @@ void AsyncMqttClient::_onAck(AsyncClient* client, size_t len, uint32_t time) {
 void AsyncMqttClient::_onData(AsyncClient* client, char* data, size_t len) {
   (void)client;
   size_t currentBytePosition = 0;
-  char currentByte;
+  uint8_t currentByte;
   do {
     switch (_parsingInformation.bufferState) {
       case AsyncMqttClientInternals::BufferState::NONE:
