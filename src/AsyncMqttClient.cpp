@@ -41,8 +41,8 @@ AsyncMqttClient::AsyncMqttClient()
   _xSemaphore = xSemaphoreCreateMutex();
 #elif defined(ESP8266)
   sprintf(_generatedClientId, "esp8266-%06x", ESP.getChipId());
-#elif defined(LIBRETUYA)
-  sprintf(_generatedClientId, "lt-%06x", LT.getChipId());
+#elif defined(LIBRETINY)
+  sprintf(_generatedClientId, "%s-%06llx", lt_cpu_get_model_code(), lt_cpu_get_mac_id());
   _xSemaphore = xSemaphoreCreateMutex();
 #endif
   _clientId = _generatedClientId;
@@ -53,7 +53,7 @@ AsyncMqttClient::AsyncMqttClient()
 AsyncMqttClient::~AsyncMqttClient() {
   delete _currentParsedPacket;
   delete[] _parsingInformation.topicBuffer;
-#if defined(ESP32) || defined(LIBRETUYA)
+#if defined(ESP32) || defined(LIBRETINY)
   vSemaphoreDelete(_xSemaphore);
 #endif
 }

@@ -14,7 +14,7 @@
   },
   "version": "1.1.1",
   "frameworks": "arduino",
-  "platforms": ["espressif8266", "espressif32","rp2040"],
+  "platforms": ["espressif8266", "espressif32", "rp2040", "libretiny"],
   "dependencies": [
     {
       "owner": "esphome",

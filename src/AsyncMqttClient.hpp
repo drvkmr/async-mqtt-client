@@ -12,7 +12,7 @@
 #include <ESPAsyncTCP.h>
 #elif defined(USE_RP2040)
 #include <AsyncTCP_RP2040W.h>
-#elif defined(LIBRETUYA)
+#elif defined(LIBRETINY)
 #include <AsyncTCP.h>
 #include <semphr.h>
 #else
@@ -43,7 +43,7 @@
 #include "AsyncMqttClient/Packets/PubRecPacket.hpp"
 #include "AsyncMqttClient/Packets/PubCompPacket.hpp"
 
-#if ESP32 || defined(LIBRETUYA)
+#if defined(ESP32) || defined(LIBRETINY)
 #define SEMAPHORE_TAKE(X) if (xSemaphoreTake(_xSemaphore, 1000 / portTICK_PERIOD_MS) != pdTRUE) { return X; }  // Waits max 1000ms
 #define SEMAPHORE_GIVE() xSemaphoreGive(_xSemaphore);
 #elif defined(ESP8266)
@@ -140,7 +140,7 @@ class AsyncMqttClient {
 
   std::vector<AsyncMqttClientInternals::PendingAck> _toSendAcks;
 
-#if defined(ESP32) || defined(LIBRETUYA)
+#if defined(ESP32) || defined(LIBRETINY)
   SemaphoreHandle_t _xSemaphore = nullptr;
 #endif
 
