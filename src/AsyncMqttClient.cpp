@@ -33,7 +33,7 @@ AsyncMqttClient::AsyncMqttClient()
   _client.onError([](void* obj, AsyncClient* c, int8_t error) { (static_cast<AsyncMqttClient*>(obj))->_onError(c, error); }, this);
   _client.onTimeout([](void* obj, AsyncClient* c, uint32_t time) { (static_cast<AsyncMqttClient*>(obj))->_onTimeout(c, time); }, this);
   _client.onAck([](void* obj, AsyncClient* c, size_t len, uint32_t time) { (static_cast<AsyncMqttClient*>(obj))->_onAck(c, len, time); }, this);
-  _client.onData([](void* obj, AsyncClient* c, void* data, size_t len) { (static_cast<AsyncMqttClient*>(obj))->_onData(c, static_cast<char*>(data), len); }, this);
+  _client.onData([](void* obj, AsyncClient* c, void* data, size_t len) { (static_cast<AsyncMqttClient*>(obj))->_onData(c, static_cast<uint8_t*>(data), len); }, this);
   _client.onPoll([](void* obj, AsyncClient* c) { (static_cast<AsyncMqttClient*>(obj))->_onPoll(c); }, this);
 
 #ifdef ESP32
@@ -390,7 +390,7 @@ void AsyncMqttClient::_onAck(AsyncClient* client, size_t len, uint32_t time) {
   (void)time;
 }
 
-void AsyncMqttClient::_onData(AsyncClient* client, char* data, size_t len) {
+void AsyncMqttClient::_onData(AsyncClient* client, uint8_t* data, size_t len) {
   (void)client;
   size_t currentBytePosition = 0;
   uint8_t currentByte;

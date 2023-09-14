@@ -153,7 +153,7 @@ class AsyncMqttClient {
   static void _onError(AsyncClient* client, int8_t error);
   void _onTimeout(AsyncClient* client, uint32_t time);
   static void _onAck(AsyncClient* client, size_t len, uint32_t time);
-  void _onData(AsyncClient* client, char* data, size_t len);
+  void _onData(AsyncClient* client, uint8_t* data, size_t len);
   void _onPoll(AsyncClient* client);
 
   // MQTT

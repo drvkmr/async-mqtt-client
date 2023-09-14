@@ -13,8 +13,8 @@ PubAckPacket::PubAckPacket(ParsingInformation* parsingInformation, OnPubAckInter
 PubAckPacket::~PubAckPacket() {
 }
 
-void PubAckPacket::parseVariableHeader(char* data, size_t len, size_t* currentBytePosition) {
-  char currentByte = data[(*currentBytePosition)++];
+void PubAckPacket::parseVariableHeader(uint8_t* data, size_t len, size_t* currentBytePosition) {
+  uint8_t currentByte = data[(*currentBytePosition)++];
   if (_bytePosition++ == 0) {
     _packetIdMsb = currentByte;
   } else {
@@ -24,7 +24,7 @@ void PubAckPacket::parseVariableHeader(char* data, size_t len, size_t* currentBy
   }
 }
 
-void PubAckPacket::parsePayload(char* data, size_t len, size_t* currentBytePosition) {
+void PubAckPacket::parsePayload(uint8_t* data, size_t len, size_t* currentBytePosition) {
   (void)data;
   (void)currentBytePosition;
 }
