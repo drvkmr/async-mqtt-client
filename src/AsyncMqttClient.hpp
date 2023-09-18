@@ -12,6 +12,9 @@
 #include <ESPAsyncTCP.h>
 #elif defined(USE_RP2040)
 #include <AsyncTCP_RP2040W.h>
+#elif defined(LIBRETINY)
+#include <AsyncTCP.h>
+#include <semphr.h>
 #else
 #error Platform not supported
 #endif
@@ -40,7 +43,7 @@
 #include "AsyncMqttClient/Packets/PubRecPacket.hpp"
 #include "AsyncMqttClient/Packets/PubCompPacket.hpp"
 
-#if ESP32
+#if defined(ESP32) || defined(LIBRETINY)
 #define SEMAPHORE_TAKE(X) if (xSemaphoreTake(_xSemaphore, 1000 / portTICK_PERIOD_MS) != pdTRUE) { return X; }  // Waits max 1000ms
 #define SEMAPHORE_GIVE() xSemaphoreGive(_xSemaphore);
 #elif defined(ESP8266)
@@ -137,7 +140,7 @@ class AsyncMqttClient {
 
   std::vector<AsyncMqttClientInternals::PendingAck> _toSendAcks;
 
-#ifdef ESP32
+#if defined(ESP32) || defined(LIBRETINY)
   SemaphoreHandle_t _xSemaphore = nullptr;
 #endif
 
@@ -150,7 +153,7 @@ class AsyncMqttClient {
   static void _onError(AsyncClient* client, int8_t error);
   void _onTimeout(AsyncClient* client, uint32_t time);
   static void _onAck(AsyncClient* client, size_t len, uint32_t time);
-  void _onData(AsyncClient* client, char* data, size_t len);
+  void _onData(AsyncClient* client, uint8_t* data, size_t len);
   void _onPoll(AsyncClient* client);
 
   // MQTT

@@ -33,7 +33,7 @@ AsyncMqttClient::AsyncMqttClient()
   _client.onError([](void* obj, AsyncClient* c, int8_t error) { (static_cast<AsyncMqttClient*>(obj))->_onError(c, error); }, this);
   _client.onTimeout([](void* obj, AsyncClient* c, uint32_t time) { (static_cast<AsyncMqttClient*>(obj))->_onTimeout(c, time); }, this);
   _client.onAck([](void* obj, AsyncClient* c, size_t len, uint32_t time) { (static_cast<AsyncMqttClient*>(obj))->_onAck(c, len, time); }, this);
-  _client.onData([](void* obj, AsyncClient* c, void* data, size_t len) { (static_cast<AsyncMqttClient*>(obj))->_onData(c, static_cast<char*>(data), len); }, this);
+  _client.onData([](void* obj, AsyncClient* c, void* data, size_t len) { (static_cast<AsyncMqttClient*>(obj))->_onData(c, static_cast<uint8_t*>(data), len); }, this);
   _client.onPoll([](void* obj, AsyncClient* c) { (static_cast<AsyncMqttClient*>(obj))->_onPoll(c); }, this);
 
 #ifdef ESP32
@@ -41,6 +41,9 @@ AsyncMqttClient::AsyncMqttClient()
   _xSemaphore = xSemaphoreCreateMutex();
 #elif defined(ESP8266)
   sprintf(_generatedClientId, "esp8266-%06x", ESP.getChipId());
+#elif defined(LIBRETINY)
+  sprintf(_generatedClientId, "%s-%06llx", lt_cpu_get_model_code(), lt_cpu_get_mac_id());
+  _xSemaphore = xSemaphoreCreateMutex();
 #endif
   _clientId = _generatedClientId;
 
@@ -50,7 +53,7 @@ AsyncMqttClient::AsyncMqttClient()
 AsyncMqttClient::~AsyncMqttClient() {
   delete _currentParsedPacket;
   delete[] _parsingInformation.topicBuffer;
-#ifdef ESP32
+#if defined(ESP32) || defined(LIBRETINY)
   vSemaphoreDelete(_xSemaphore);
 #endif
 }
@@ -387,10 +390,10 @@ void AsyncMqttClient::_onAck(AsyncClient* client, size_t len, uint32_t time) {
   (void)time;
 }
 
-void AsyncMqttClient::_onData(AsyncClient* client, char* data, size_t len) {
+void AsyncMqttClient::_onData(AsyncClient* client, uint8_t* data, size_t len) {
   (void)client;
   size_t currentBytePosition = 0;
-  char currentByte;
+  uint8_t currentByte;
   do {
     switch (_parsingInformation.bufferState) {
       case AsyncMqttClientInternals::BufferState::NONE:

@@ -36,8 +36,8 @@ PublishPacket::PublishPacket(ParsingInformation* parsingInformation, OnMessageIn
 PublishPacket::~PublishPacket() {
 }
 
-void PublishPacket::parseVariableHeader(char* data, size_t len, size_t* currentBytePosition) {
-  char currentByte = data[(*currentBytePosition)++];
+void PublishPacket::parseVariableHeader(uint8_t* data, size_t len, size_t* currentBytePosition) {
+  uint8_t currentByte = data[(*currentBytePosition)++];
   if (_bytePosition == 0) {
     _topicLengthMsb = currentByte;
   } else if (_bytePosition == 1) {
@@ -76,11 +76,11 @@ void PublishPacket::_preparePayloadHandling(uint32_t payloadLength) {
   }
 }
 
-void PublishPacket::parsePayload(char* data, size_t len, size_t* currentBytePosition) {
+void PublishPacket::parsePayload(uint8_t* data, size_t len, size_t* currentBytePosition) {
   size_t remainToRead = len - (*currentBytePosition);
   if (_payloadBytesRead + remainToRead > _payloadLength) remainToRead = _payloadLength - _payloadBytesRead;
 
-  if (!_ignore) _dataCallback(_parsingInformation->topicBuffer, data + (*currentBytePosition), _qos, _dup, _retain, remainToRead, _payloadBytesRead, _payloadLength, _packetId);
+  if (!_ignore) _dataCallback(_parsingInformation->topicBuffer, reinterpret_cast<char*>(data + (*currentBytePosition)), _qos, _dup, _retain, remainToRead, _payloadBytesRead, _payloadLength, _packetId);
   _payloadBytesRead += remainToRead;
   (*currentBytePosition) += remainToRead;
 

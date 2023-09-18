@@ -13,8 +13,8 @@ PubCompPacket::PubCompPacket(ParsingInformation* parsingInformation, OnPubCompIn
 PubCompPacket::~PubCompPacket() {
 }
 
-void PubCompPacket::parseVariableHeader(char* data, size_t len, size_t* currentBytePosition) {
-  char currentByte = data[(*currentBytePosition)++];
+void PubCompPacket::parseVariableHeader(uint8_t* data, size_t len, size_t* currentBytePosition) {
+  uint8_t currentByte = data[(*currentBytePosition)++];
   if (_bytePosition++ == 0) {
     _packetIdMsb = currentByte;
   } else {
@@ -24,7 +24,7 @@ void PubCompPacket::parseVariableHeader(char* data, size_t len, size_t* currentB
   }
 }
 
-void PubCompPacket::parsePayload(char* data, size_t len, size_t* currentBytePosition) {
+void PubCompPacket::parsePayload(uint8_t* data, size_t len, size_t* currentBytePosition) {
   (void)data;
   (void)currentBytePosition;
 }

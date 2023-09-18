@@ -13,8 +13,8 @@ PubRecPacket::PubRecPacket(ParsingInformation* parsingInformation, OnPubRecInter
 PubRecPacket::~PubRecPacket() {
 }
 
-void PubRecPacket::parseVariableHeader(char* data, size_t len, size_t* currentBytePosition) {
-  char currentByte = data[(*currentBytePosition)++];
+void PubRecPacket::parseVariableHeader(uint8_t* data, size_t len, size_t* currentBytePosition) {
+  uint8_t currentByte = data[(*currentBytePosition)++];
   if (_bytePosition++ == 0) {
     _packetIdMsb = currentByte;
   } else {
@@ -24,7 +24,7 @@ void PubRecPacket::parseVariableHeader(char* data, size_t len, size_t* currentBy
   }
 }
 
-void PubRecPacket::parsePayload(char* data, size_t len, size_t* currentBytePosition) {
+void PubRecPacket::parsePayload(uint8_t* data, size_t len, size_t* currentBytePosition) {
   (void)data;
   (void)currentBytePosition;
 }
